@@ -1,0 +1,108 @@
+// 全局less变量
+@import './variables.less';
+
+.topTitle {
+  color: #fff;
+  font-size: @normalFontSize + 20px;
+  letter-spacing: 4px;
+}
+.secondTitle {
+  color: #fff;
+  font-size: @normalFontSize + 10px;
+  letter-spacing: 2px;
+}
+.tips {
+  color: #aaa;
+  font-size: @normalFontSize;
+  letter-spacing: 1px;
+}
+
+.white-txt {
+  .tips;
+  color: #fff;
+}
+.nomal-btn {
+  background: @mainColor;
+  border: 2px solid #fff;
+  height: 70px;
+  font-size: @normalFontSize;
+  letter-spacing: 1px;
+  padding: 0 100px;
+  color: #fff;
+  border-radius: 90px;
+  &:active, &:focus {
+    border-color: @mainColor;
+    color:  @mainColor;
+    background: #fff;
+  }
+}
+.cancel-btn {
+  .nomal-btn;
+  background: rgb(61, 76, 153);
+  border-color: rgb(151, 158, 175);
+  color: rgb(151, 158, 175);
+  &:active, &:focus {
+    border-color: rgb(61, 76, 153);
+    color:  rgb(61, 76, 153);
+    background: rgb(151, 158, 175);
+  }
+}
+.simple-btn {
+  .nomal-btn;
+  background:  transparent;
+  border-color: rgb(151, 158, 175);
+  color: rgb(151, 158, 175);
+  &:active, &:focus {
+    border-color: rgb(61, 76, 153);
+    color:  rgb(61, 76, 153);
+    background: rgb(151, 158, 175);
+  }
+}
+.nomal-short-btn {
+  .nomal-btn;
+  padding: 0 60px;
+}
+.cancel-short-btn {
+  .cancel-btn;
+  padding: 0 60px;
+}
+.simple-short-btn{
+  .simple-btn;
+  padding: 0 60px;
+}
+
+/* 背景虚化,高斯模糊+暗度 */
+.blur(@brightness: 50%, @blur: 5px){
+  -webkit-filter: blur(@blur) brightness(@brightness);
+  -moz-filter: blur(@blur) brightness(@brightness);
+  -o-filter: blur(@blur) brightness(@brightness);
+  -ms-filter: blur(@blur) brightness(@brightness);
+  filter: blur(@blur) brightness(@brightness);
+}
+
+.bg-cover(@url) {
+  background-image: url(@url);
+  background-repeat: no-repeat;
+  background-size: cover;
+  -webkit-background-size: cover;
+  -o-background-size: cover;
+  background-position: 0 center;
+}
+
+.no-data {
+  width: 100%;
+  height: 100%;
+  min-height: 200px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  font-size: @normalFontSize + 6px;
+  letter-spacing: 2px;
+  color: #aaa;
+  img {
+    width: 146px;
+    height: 146px;
+    margin-bottom: 20px;
+  }
+}
