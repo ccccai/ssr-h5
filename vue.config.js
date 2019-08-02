@@ -4,9 +4,13 @@ const nodeExternals = require('webpack-node-externals')
 const merge = require('lodash.merge')
 const TARGET_NODE = process.env.WEBPACK_TARGET === 'node'
 const target = TARGET_NODE ? 'server' : 'client'
+const isDev = process.env.NODE_ENV !== 'production'
 
 module.exports = {
+  publicPath: isDev ? 'http://127.0.0.1:8080' : 'http://127.0.0.1:3000',
   devServer: {
+    historyApiFallback: true,
+    headers: { 'Access-Control-Allow-Origin': '*' },
     proxy: {
       '/dev': {
         target: 'http://111.230.137.157:18082', // 目标地址，测试环境
@@ -36,7 +40,7 @@ module.exports = {
   },
   // 配置less
   css: {
-    extract: false,
+    extract: process.env.NODE_ENV === 'production',
     loaderOptions: {
       less: {
         javascriptEnabled: true
@@ -80,11 +84,11 @@ module.exports = {
       })
     // fix ssr hot update bug
     if (TARGET_NODE) {
-      config.plugins.delete("hmr");
+      config.plugins.delete('hmr')
     }
     config.entry.app = ['babel-polyfill', './src/main.js']
   },
-  configureWebpack: {
+  configureWebpack: () => ({
     // externals: { // <-添加
     //   vue: 'Vue',
     //   vuex: 'Vuex',
@@ -95,10 +99,10 @@ module.exports = {
     entry: `./src/entry-${target}.js`,
     // 对 bundle renderer 提供 source map 支持
     devtool: 'source-map',
-    target: TARGET_NODE ? "node" : "web",
+    target: TARGET_NODE ? 'node' : 'web',
     node: TARGET_NODE ? undefined : false,
     output: {
-      libraryTarget: TARGET_NODE ? "commonjs2" : undefined
+      libraryTarget: TARGET_NODE ? 'commonjs2' : undefined
     },
     // https://webpack.js.org/configuration/externals/#function
     // https://github.com/liady/webpack-node-externals
@@ -106,16 +110,16 @@ module.exports = {
     // 并生成较小的 bundle 文件。
     externals: TARGET_NODE
       ? nodeExternals({
-          // 不要外置化 webpack 需要处理的依赖模块。
-          // 你可以在这里添加更多的文件类型。例如，未处理 *.vue 原始文件，
-          // 你还应该将修改 `global`（例如 polyfill）的依赖模块列入白名单
-          whitelist: [/\.css$/]
-        })
+        // 不要外置化 webpack 需要处理的依赖模块。
+        // 你可以在这里添加更多的文件类型。例如，未处理 *.vue 原始文件，
+        // 你还应该将修改 `global`（例如 polyfill）的依赖模块列入白名单
+        whitelist: [/\.css$/]
+      })
       : undefined,
     optimization: {
-          splitChunks: undefined
+      splitChunks: TARGET_NODE ? false : undefined
     },
     plugins: [TARGET_NODE ? new VueSSRServerPlugin() : new VueSSRClientPlugin()]
-  },
+  }),
   transpileDependencies: ['webpack-dev-server/client']
 }

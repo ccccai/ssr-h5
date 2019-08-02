@@ -1,4 +1,3 @@
-// 仅运行于服务器.服务器 entry 使用 default export 导出函数，并在每次渲染中重复调用此函数。
 import { createApp } from './main'
 
 export default context => {
@@ -16,10 +15,21 @@ export default context => {
       const matchedComponents = router.getMatchedComponents()
       // 匹配不到的路由，执行 reject 函数，并返回 404
       if (!matchedComponents.length) {
-        return reject({
-          code: 404
-        })
+        return reject(new Error('no components matched'))
       }
+
+      // Promise.all(
+      //   matchedComponents.map((component: any) => {
+      //     if (component.asyncData) {
+      //       return component.asyncData({
+      //         store,
+      //         route: router.currentRoute
+      //       });
+      //     }
+      //   })
+      // ).then(() => {
+      //   context.state = store.state;
+      // });
       // Promise 应该 resolve 应用程序实例，以便它可以渲染
       resolve(app)
     }, reject)

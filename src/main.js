@@ -4,10 +4,15 @@ import App from './App.vue'
 // import router from './router'
 // import store from './store'
 
-import { createRouter } from "./router"
+import { createRouter } from './router'
 import { createStore } from './store'
 
-import { Button, Message, Spin, Carousel } from 'ant-design-vue'
+// 解决低版本浏览器不支持promise问题
+import 'babel-polyfill'
+import Es6Promise from 'es6-promise'
+Es6Promise.polyfill()
+
+import { Button, Spin, Carousel } from 'ant-design-vue'
 // 使用lib-flexible来解决移动端适配
 import 'lib-flexible'
 import './store/state'
@@ -15,10 +20,6 @@ import './store/state'
 import Bridge from './assets/utils/jsBridge'
 import Api from './api/apiUrl'
 import Request from './assets/http'
-// 解决低版本浏览器不支持promise问题
-import 'babel-polyfill'
-import Es6Promise from 'es6-promise'
-Es6Promise.polyfill()
 // 解决移动端click 300ms延迟
 import fastclick from 'fastclick'
 fastclick.attach(document.body)
@@ -30,7 +31,6 @@ Vue.component(Button.name, Button)
 // Vue.component(Progress.name, Progress)
 Vue.component(Spin.name, Spin)
 Vue.component(Carousel.name, Carousel)
-Vue.prototype.$message = Message
 
 Vue.prototype.$bridge = Bridge
 Vue.prototype.API = Api
@@ -44,7 +44,7 @@ Vue.config.productionTip = false
 // }).$mount('#app')
 // 导出一个工厂函数，用于创建新的
 // 应用程序、router 和 store 实例
-export function createApp () {
+export function createApp() {
   const router = createRouter()
   const store = createStore()
   const app = new Vue({
