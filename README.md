@@ -1,8 +1,3 @@
-# bying-h5-hundred-kilometers-game
-
-#### 介绍
-百公里油耗游戏h5
-
 #### 软件架构
 vue-cli3 + ant-design-vue
 
